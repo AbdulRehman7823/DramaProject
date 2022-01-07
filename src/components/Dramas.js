@@ -23,23 +23,23 @@ const Dramas = () => {
     
       <Container>
         
-         <Grid container>
+         <Grid >
 
          <Grid item sm={12}>
 
-            <Typography variant="h5" style={{textAlign:"center",marginTop:"3rem"}}>Dramas</Typography>  
+            <Typography variant="h5" style={{textAlign:"center",margin:"6rem"}}>Dramas</Typography>  
 
             </Grid>
 
 
-         <Grid item sm={4} md={4}>
+         
             {dramas.map((drama,index)=>
-             
+            <Grid item sm={4} md={4} >
                <SingleDrama key={index} drama={drama}/>
+               </Grid>
 
             )}
-
-            </Grid>
+            
 
 
          </Grid>

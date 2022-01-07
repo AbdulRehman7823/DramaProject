@@ -1,61 +1,60 @@
-import React from 'react';
-import {useNavigate,useLocation} from "react-router-dom";
-import SingleEpisode from './SingleEpisode';
-import axios from 'axios';
-import {Container,Grid,Typography} from '@mui/material';
+import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import SingleEpisode from "./SingleEpisode";
+import axios from "axios";
+import { Container, Grid, Typography } from "@mui/material";
 
-const Episodes = ()=> {
+const Episodes = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [episodesId, setEpisodesId] = React.useState([]);
+  const [episodes, setEpisode] = React.useState([]);
 
-     const navigate = useNavigate();
-     const location = useLocation();
-    const [episodes,setEpisodes] = React.useState([]);
+  const getEpisodes = () => {
+    const dramaId = location.pathname.split("/")[2];
+    axios
+      .get("http://localhost:4000/api/dramas/episodes/" + dramaId)
+      .then((response) => {
+         let array = [];
 
+          response.data.map((data) =>{
+            axios.get("http://localhost:4000/api/episodes/"+data._id).then((res)=>{
+               array.push(res.data);
+               setEpisode(array);
+               console.log(episodes);
+          })
+           
+         })
+         })
+          
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-    const getEpisodes = () =>{
-        const dramaId = location.pathname.split("/")[2];
-        console.log(dramaId)
-        axios.get("http://localhost:4000/api/dramas/episodes/"+dramaId).then((response) =>{
-            console.log(response.data);
-            setEpisodes(response.data);
-        }).catch((error) =>{
-            console.log(error);
-        })
-     }
+  
+  React.useEffect(getEpisodes, []);
 
-
-
-     React.useEffect(getEpisodes,[]);
-
-
-
-
-     return(
-        <Container>
-        
-        <Grid container>
-
+  return (
+    <Container>
+      <Grid container>
         <Grid item sm={12}>
-
-           <Typography variant="h5" style={{textAlign:"center",marginTop:"3rem"}}>Episodes</Typography>  
-
-           </Grid>
-
+          <Typography
+            variant="h5"
+            style={{ textAlign: "center", marginTop: "3rem" }}
+          >
+            Episodes
+          </Typography>
+        </Grid>
 
         <Grid item sm={12} md={12}>
-           {episodes.map((episode,index)=>
-            
-              <SingleEpisode key={index} drama={episode}/>
-
-           )}
-
-           </Grid>
-
-
+          {episodes.map((episode, index) => (
+            <SingleEpisode key={index} episode={episode} />
+          ))}
         </Grid>
-     
-
-     </Container>
-     )
-}
+      </Grid>
+    </Container>
+  );
+};
 
 export default Episodes;

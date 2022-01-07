@@ -22,10 +22,7 @@ const Login = () => {
    
 
   const navigate = useNavigate();
-    const [name,setName] = React.useState("");
     const [email,setEmail] = React.useState("");
-    const [age,setAge] = React.useState(0);
-    const [image,setImage] = React.useState("");
     const [password,setPassword] = React.useState("");
 
     const [emailErr,setEmailErr] = React.useState(false);
